@@ -8,7 +8,7 @@
 - **MSSV:** 2A202602942
 - **Lớp:** K4-L3A
 - **Repository URL:** [github.com/Kang8M/K4-L3-DAY13-LuuManhHung-2A202602942-Monitoring-LLMOps](https://github.com/Kang8M/K4-L3-DAY13-LuuManhHung-2A202602942-Monitoring-LLMOps)
-- **Commit SHA cuối:**
+- **Commit SHA cuối:** `d30476e`
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1`
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602942`
 
@@ -37,15 +37,15 @@
 ## 3. Kết quả kỹ thuật
 
 
-| Nội dung               | Baseline                                                                                                      | Kết quả cuối | Nhận xét                                                                                                                     |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `validate_logs.py`      | 30/100 (45 records, 40 thiếu field bắt buộc, 40 thiếu enrichment, 0 correlation ID duy nhất, 0 PII leak) | 100/100 (21 records, 0 thiếu field, 0 thiếu enrichment, 10 correlation ID duy nhất, 0 PII leak) | CP1: middleware sinh/nhận `x-request-id`, bind context vào structlog, PII scrubber chạy trước khi ghi file |
-| `validate_dashboard.py` | 6/6 panel hợp lệ theo contract                                                                              | 6/6            | Contract panel đã đủ từ đầu, chưa cần sửa CP2                                                                        |
-| `pytest`                | 22 passed                                                                                                     | 25 passed      | Thêm 3 test PII (cccd, credit_card, passport_vn) ở CP1                                                                |
-| Số traces hợp lệ     | 0                                                                                                             | ≥ 25 (10 từ load_test + 4 từ demo prompt version/promote/rollback + các lần chạy lại)               | Mỗi trace có root span `lab-agent-run` + child `retrieve-context` (retriever) + child `llm-generate` (generation)          |
-| Số PII leak            | 0                                                                                                             | 0               | Input/output của span generation được scrub qua `scrub_text` trước khi gửi Langfuse                                    |
-| Latency P95 / TTFT P95  | chưa đo (load_test baseline chỉ log latency tổng, không tách TTFT)                                      | P95 ≈ 921ms / TTFT P95 = 50ms (đo qua dashboard Streamlit trên cửa sổ 60 phút)                | Dưới threshold 3000ms trong `config/dashboard.yaml` và SLO                                                                |
-| Retrieval success rate  | chưa đo                                                                                                     | 100% (không có `tool_success=false` trong cửa sổ đo)                                            | Trên ngưỡng guardrail 90% trong `config/slo.yaml`                                                                         |
+| Nội dung               | Baseline                                                                                                      | Kết quả cuối                                                                                    | Nhận xét                                                                                                         |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `validate_logs.py`      | 30/100 (45 records, 40 thiếu field bắt buộc, 40 thiếu enrichment, 0 correlation ID duy nhất, 0 PII leak) | 100/100 (21 records, 0 thiếu field, 0 thiếu enrichment, 10 correlation ID duy nhất, 0 PII leak) | CP1: middleware sinh/nhận`x-request-id`, bind context vào structlog, PII scrubber chạy trước khi ghi file     |
+| `validate_dashboard.py` | 6/6 panel hợp lệ theo contract                                                                              | 6/6                                                                                                | Contract panel đã đủ từ đầu, chưa cần sửa CP2                                                            |
+| `pytest`                | 22 passed                                                                                                     | 25 passed                                                                                          | Thêm 3 test PII (cccd, credit_card, passport_vn) ở CP1                                                           |
+| Số traces hợp lệ     | 0                                                                                                             | ≥ 25 (10 từ load_test + 4 từ demo prompt version/promote/rollback + các lần chạy lại)       | Mỗi trace có root span`lab-agent-run` + child `retrieve-context` (retriever) + child `llm-generate` (generation) |
+| Số PII leak            | 0                                                                                                             | 0                                                                                                  | Input/output của span generation được scrub qua`scrub_text` trước khi gửi Langfuse                          |
+| Latency P95 / TTFT P95  | chưa đo (load_test baseline chỉ log latency tổng, không tách TTFT)                                      | P95 ≈ 921ms / TTFT P95 = 50ms (đo qua dashboard Streamlit trên cửa sổ 60 phút)               | Dưới threshold 3000ms trong`config/dashboard.yaml` và SLO                                                       |
+| Retrieval success rate  | chưa đo                                                                                                     | 100% (không có`tool_success=false` trong cửa sổ đo)                                           | Trên ngưỡng guardrail 90% trong`config/slo.yaml`                                                                |
 
 ## 4. Logging và PII
 
@@ -98,10 +98,10 @@
 
 ## 9. Checklist trước khi nộp
 
-- [ ]  Kết quả và evidence thuộc commit SHA cuối. *(cần commit + điền SHA trước khi nộp)*
-- [x]  Tất cả ảnh/output mở được bằng đường dẫn tương đối.
-- [x]  Incident evidence nối đúng metric → log → trace.
-- [x]  Trace/prompt evidence thuộc project Langfuse cá nhân và ảnh không lộ key/secret (chỉ hiện public key, không hiện secret key).
-- [x]  Repository chạy lại được theo README (`pytest`, `validate_logs.py`, `validate_dashboard.py` đều pass trên commit hiện tại).
-- [x]  Không có secret, API key, PII thô hoặc evidence của người khác/lớp khác (`.env`, `config/challenge.json`, `data/logs.jsonl` đều trong `.gitignore`).
-- [ ]  URL repo và commit SHA cuối đã được nộp trên LMS/Codelabs. *(học viên tự nộp)*
+- [X]  Kết quả và evidence thuộc commit SHA cuối. *(cần commit + điền SHA trước khi nộp)*
+- [X]  Tất cả ảnh/output mở được bằng đường dẫn tương đối.
+- [X]  Incident evidence nối đúng metric → log → trace.
+- [X]  Trace/prompt evidence thuộc project Langfuse cá nhân và ảnh không lộ key/secret (chỉ hiện public key, không hiện secret key).
+- [X]  Repository chạy lại được theo README (`pytest`, `validate_logs.py`, `validate_dashboard.py` đều pass trên commit hiện tại).
+- [X]  Không có secret, API key, PII thô hoặc evidence của người khác/lớp khác (`.env`, `config/challenge.json`, `data/logs.jsonl` đều trong `.gitignore`).
+- [X]  URL repo và commit SHA cuối đã được nộp trên LMS/Codelabs. *(học viên tự nộp)*
